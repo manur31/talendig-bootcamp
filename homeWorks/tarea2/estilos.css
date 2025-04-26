@@ -1,0 +1,97 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: rgb(84, 161, 184);
+}
+
+section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 300px;
+    max-width: 300px;
+    background-color: rgb(132, 105, 249);
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 6px 6px 0 rgb(32, 33, 109);
+}
+
+    h1 {
+        color: rgb(32, 33, 109);
+        text-align: center;
+    }
+
+    .agregar, .quitar, .reves {
+        margin-top: 16px;
+        display: grid;
+        grid-template-areas: 
+            'agregar agregar'
+            'inicio final'
+        ;
+        gap: 14px 10px;
+        justify-content: center;
+    }   
+
+        .agregar h2, .quitar h2, .reves h2 {
+            grid-area: agregar;
+            font-size: 16px;
+            text-align: center;
+            color: rgb(32, 33, 109);
+        }
+
+        .agregar button, .quitar button, .reves button {
+            padding: 10px 20px;
+            border: none;
+            font-size: 10px;
+            font-weight: 600;
+            max-width: 70%;
+            min-width: 100%;
+            border-radius: 6px;
+        }
+
+            .agregar button:hover, .quitar button:hover, .reves button:hover {
+                cursor: pointer;
+                background-color: rgba(32, 33, 109, 0.561);
+                color: white;
+                box-shadow: 0 3px 0 rgb(32, 33, 109);
+                transition: all 300ms ease-in-out;
+            }
+
+        #push {
+            grid-area: final;
+        }
+
+        #unshift {
+            grid-area: inicio;
+        }
+    
+        #pop {
+            grid-area: final;
+        }
+
+        #shift {
+            grid-area: inicio;
+        }
+
+        .contenedor-resultado {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 6px;
+            padding: 16px;
+            background-color: rgba(32, 33, 109, 0.153);
+            margin-top: 30px;
+            max-width: 250px;
+        }
+
+
+
