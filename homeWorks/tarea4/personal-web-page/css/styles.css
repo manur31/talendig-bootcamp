@@ -29,6 +29,20 @@ h2 {
     font-size: 2.25em;
 }
 
+.btn {
+    padding: 10px 20px;
+    font-size: 1.2em;
+    font-weight: 500;
+    background-color: var(--primary-color);
+    color: var(--white);
+    border-radius: 8px;
+    transition: .7s ease;
+}   
+    .btn:hover {
+        cursor: pointer;
+        transform: rotateZ(-2deg) scale(1.2);
+    }
+
 header {
     display: flex;
     justify-content: space-between;
@@ -106,9 +120,19 @@ main {
             opacity: .7;
         }
 
-    #home img {
+    .hero-img {
         width: 530px;
     }
+
+        .hero-img img {
+            width: 100%;
+        }
+        .hero-img::before {
+            content: '';
+            width: 540px;
+            height: 300px;
+            background-color: var(--white);
+        }
 
     #about {
         display: flex;
@@ -118,7 +142,8 @@ main {
     }
         #about img {
             width: 394px;
-            height: 405px;
+            height: 425px;
+            object-fit: cover;
             border-radius: 70px 0px 70px 0px;
         }
 
@@ -131,6 +156,10 @@ main {
             .about-info p {
                 text-align: justify;
                 font-size: 1.25em;
+            }
+
+            .about-info .btn {
+                align-self: flex-start;
             }
 
     .photos {
@@ -175,6 +204,9 @@ main {
             gap: 72px;
             margin-top: 70px;
         }
+            #hobbies .btn {
+                margin-top: 80px;
+            }
             .hobbies-card {
                 width: 300px;
                 height: 350px;
