@@ -1,0 +1,169 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+:root {
+    --background-primary: #F8F9FA;
+    --text-primary: #343A40;
+    --text-secundary: #6C757D;
+    --menu-color: #E9ECEF;
+    --hover-btn: #357ABD;
+    --color-btn: #4A90E2;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    text-decoration: none;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--background-primary);
+}
+
+    header {
+        background-color: var(--menu-color);
+        padding: 30px 0;
+        display: grid;
+        place-content: center;
+    }
+        header nav {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+            header nav a {
+                font-size: 1.3rem;
+                font-weight: 500;
+                color: var(--text-primary);
+                transition: 0.3s ease
+            }
+                header nav a:hover {
+                    cursor: pointer;
+                    color: var(--hover-btn);
+                }
+    .inicio {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+        .inicio img {
+            width: 200px;
+            height: 200PX;
+            object-fit: cover;
+            border-radius: 100%;
+            margin-top: 50px;
+        }
+        
+        .inicio-info {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 0 5rem;
+        }
+            .inicio-info h1 {
+                font-size: 3rem;
+                margin-top: 20px;
+                color: var(--text-primary);
+            }
+
+            .inicio-info p {
+                text-align: center;
+                font-size: 1.5rem;
+                width: 70%;
+                margin-top: 20px;
+            }
+                .inicio-info p strong {
+                    color: var(--text-primary);
+                }
+
+    .sobre-mi {
+        max-width: 800px;
+        margin: 3rem auto;
+        padding: 1rem;
+    }
+
+    .sobre-mi h1 {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+    }
+
+    .sobre-mi h2 {
+        margin-top: 2rem;
+        color: #4A90E2;
+    }
+
+    .sobre-mi p, li {
+        font-size: 1.125rem;
+        line-height: 1.8;
+    }
+
+    .sobre-mi ul {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    .pasatiempos {
+        max-width: 1000px;
+        margin: 3rem auto;
+        padding: 1rem;
+    }
+        .pasatiempos h1 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+  
+        .pasatiempos .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+  
+        .pasatiempos .card {
+            background-color: #FFFFFF;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s;
+        }
+  
+        .pasatiempos .card:hover {
+            transform: translateY(-5px);
+            cursor: pointer;
+        }
+   
+        .pasatiempos .card h3 {
+            margin-top: 0;
+            color: var(--color-btn);
+            font-size: 1.25rem;
+        }
+      
+        .pasatiempos .card p {
+            font-size: 1.05rem;
+            line-height: 1.6;
+            margin-top: .2rem;
+        }
+
+        .pasatiempos .card a {
+            text-decoration: none;
+            color: var(--text-primary);
+            display: block;
+            margin-top: 0.5rem;
+            word-break: break-word;
+          }
+
+
+    footer {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        background-color: var(--menu-color);
+        color: var(--text-secundary);
+        padding: 30px;
+    }
+
+    .footer-inicio {
+        position: absolute;
+        bottom: 0;
+    }
