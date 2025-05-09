@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora básica</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <main>
+
+        <h1>Calculadora básica</h1>
+        <p>
+            Realiza operaciones matemáticas básicas entre dos números
+        </p>
+        <form>
+            <section class="inputs">
+                <article class="input">
+                    <label for="valor1">Número 1:</label>
+                    <input type="text" id="valor1">
+                </article>
+                <article class="input">
+                    <label for="valor2">Número 2:</label>
+                    <input type="text" id="valor2">
+                </article>
+            </section>
+            <span id="error"></span>
+            <section class="botones">
+                <button id="sumar">Sumar</button>
+                <button id="restar">Restar</button>
+                <button id="multiplicar">Multiplicar</button>
+                <button id="dividir">Dividir</button>
+            </section>
+        </form>
+    
+        <p id="resultado"></p>
+
+    </main>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
