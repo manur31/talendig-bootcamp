@@ -38,9 +38,14 @@ checkAgregar.addEventListener('click', () => {
 
 inputText.addEventListener('keydown', (e) => {
     if (e.key === 'Enter') {
-        agregarTask();
-        inputText.value = '';
-        input.classList.remove('active');
+        if (inputText.value.trim() === '') {
+            warning.classList.remove('hidden');
+        }else {
+            agregarTask();
+            inputText.value = '';
+            input.classList.remove('active');
+            warning.classList.add('hidden');
+        }
     }
 });
 
