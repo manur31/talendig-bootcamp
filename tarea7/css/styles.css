@@ -219,6 +219,8 @@ header {
 
         .task-info.active .circle {
             opacity: 0;
+            transform: scale(1.5);
+            color: #2A87F2
         }
 
         .task-info.active .line {

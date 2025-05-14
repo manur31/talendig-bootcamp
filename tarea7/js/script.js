@@ -10,7 +10,9 @@ const cancelar = document.querySelector('.cancelar');
 
 btnAgregar.addEventListener('click', () => {
     input.classList.toggle('active');
-    inputText.focus();
+    // Agregando tareas con Enter
+    canUseEnter();
+    input.classList.contains('active') ? inputText.focus() : inputText.blur();
 });
 
 // Cancelando la tarea 
@@ -24,7 +26,7 @@ cancelar.addEventListener('click', () => {
 
 checkAgregar.addEventListener('click', () => {
     if (inputText.value.trim() === '') {
-        warning.classList.remove('hidden');
+        showWarning();
         return;
     }else {
         agregarTask();
@@ -33,22 +35,6 @@ checkAgregar.addEventListener('click', () => {
         warning.classList.add('hidden');
     }
 });
-
-// Agregando tareas con Enter
-
-inputText.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter') {
-        if (inputText.value.trim() === '') {
-            warning.classList.remove('hidden');
-        }else {
-            agregarTask();
-            inputText.value = '';
-            input.classList.remove('active');
-            warning.classList.add('hidden');
-        }
-    }
-});
-
 
 
 // Funcion para agregar tareas
@@ -71,7 +57,7 @@ function agregarTask() {
             </span>
             <section class="task-text">
                 <p class="task-title">${task}</p>
-                <p class="time">${horas}:${minutos} ${ampm}</p>
+                <p class="time"></p>
                 <span class="line"></span>
             </section>
         </section>  
@@ -85,19 +71,23 @@ function agregarTask() {
     const btnEliminar = taskItem.querySelector('.btn-eliminar');
     btnEliminar.addEventListener('click', () => {
         taskItem.remove();
-        updateTasksCountDelete(taskList);
-    });
-
-    // Marcando tareas
-
-    const check = taskItem.querySelector('.task-info');
-    check.addEventListener('click', () => {
-        check.classList.toggle('active');
-        updateTasksCountDelete(taskList);
+        updateTasksCount(taskList);
     });
 
 
     taskList.appendChild(taskItem);
+
+    // Marcando tareas
+
+    const check = taskItem.querySelectorAll('.task-info');
+        check.forEach((e) => {
+            e.addEventListener('click', () => {
+                e.classList.toggle('active');
+                e.classList.contains('active') ? updateTasksCountDelete(taskList, 1) : updateTasksCount(taskList);
+            });
+    });
+
+    showTime(taskItem);
 
     updateTasksCount(taskList);
 }
@@ -110,31 +100,72 @@ function updateTasksCount(task) {
     tasksCount.textContent = `${countTask} tasks`;
 }
 
-function updateTasksCountDelete(task) {
+function updateTasksCountDelete(task, pending = 0) {
     let countTask = task.children.length;
-    tasksCount.textContent = `${countTask} tasks`;
+    tasksCount.textContent = `${countTask - pending} tasks`;
+}
+
+
+function showWarning() {
+    input.classList.contains('active') ? warning.classList.remove('hidden') : null;
+    setTimeout(() => {
+        warning.classList.add('hidden');
+        inputText.focus();
+    }, 3000);
+}
+
+// Agregando tareas con Enter
+
+function enter(e) {
+    if (e.key === 'Enter') {
+        if (inputText.value.trim() === '') {
+            showWarning();
+        }else {
+            agregarTask();
+            input.classList.remove('active');
+            input.classList.contains('active') ? inputText.focus() : inputText.blur();
+            warning.classList.add('hidden');
+            inputText.value = '';
+        }
+    }
+}
+
+// Validando que se pueda usar Enter
+
+function canUseEnter() {
+    if (input.classList.contains('active')) {
+        inputText.addEventListener('keydown', enter);
+    }
 }
 
 
 // Agregando hora
-const fecha = new Date();
+function showTime(e) {
+    const fecha = new Date();
+        let horas = fecha.getHours();
+        let minutos = fecha.getMinutes();
+        let ampm = horas >= 12 ? 'pm' : 'am';
 
-let horas = fecha.getHours();
-let minutos = fecha.getMinutes();
-let ampm = horas >= 12 ? 'pm' : 'am';
+        // Formateando la hora a 12
+        horas = horas % 12; 
+        horas = horas ? horas : 12;
+        minutos = minutos < 10 ? '0' + minutos : minutos;
+
+        const timeCurrent = `${horas}:${minutos} ${ampm}`;
+
+        const time = e.querySelector('.time');
+        time.textContent = timeCurrent;
+} 
 
 
-// Formateando la hora a 12
-horas = horas % 12; 
-horas = horas ? horas : 12;
-minutos = minutos < 10 ? '0' + minutos : minutos;
 
 // Agregando fecha
+const dia = new Date();
 
 const diaSemana = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 const mes = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-const diaActual = fecha.getDay();
-const diaSemanaActual = fecha.getDate();
-const mesActual = fecha.getMonth();
+const diaActual = dia.getDay();
+const diaSemanaActual = dia.getDate();
+const mesActual = dia.getMonth();
 
 fechaActual.textContent = `${diaSemana[diaActual]}, ${diaSemanaActual} ${mes[mesActual]}`;
