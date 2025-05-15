@@ -71,7 +71,7 @@ function agregarTask() {
     const btnEliminar = taskItem.querySelector('.btn-eliminar');
     btnEliminar.addEventListener('click', () => {
         taskItem.remove();
-        updateTasksCount(taskList);
+        updateTasksCount(taskList, 1);
     });
 
 
@@ -83,24 +83,20 @@ function agregarTask() {
         check.forEach((e) => {
             e.addEventListener('click', () => {
                 e.classList.toggle('active');
-                e.classList.contains('active') ? updateTasksCountDelete(taskList, 1) : updateTasksCount(taskList);
+                e.classList.contains('active') ? updateTasksCount(taskList, 1) : updateTasksCount(taskList);
             });
     });
 
     showTime(taskItem);
 
-    updateTasksCount(taskList);
+    updateTasksCount(taskList)
 }
 
 // Contador de tareas
 const tasksCount = document.querySelector('.tasks-count');
 
-function updateTasksCount(task) {
-    let countTask = task.children.length;
-    tasksCount.textContent = `${countTask} tasks`;
-}
 
-function updateTasksCountDelete(task, pending = 0) {
+function updateTasksCount(task, pending = 0) {
     let countTask = task.children.length;
     tasksCount.textContent = `${countTask - pending} tasks`;
 }
