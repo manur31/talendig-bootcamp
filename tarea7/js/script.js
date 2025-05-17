@@ -40,7 +40,9 @@ checkAgregar.addEventListener('click', () => {
 // Funcion para agregar tareas
 
 function agregarTask() {
-    const task = inputText.value;
+    const task = {
+        taskText: inputText.value,
+    };
 
     const taskList = document.querySelector('.tasks-list');
     const taskItem = document.createElement('article');
@@ -56,7 +58,7 @@ function agregarTask() {
                 <svg width="24" height="24"><use href="assets/sprite.svg#icon-circle"/></svg>
             </span>
             <section class="task-text">
-                <p class="task-title">${task}</p>
+                <p class="task-title">${task.taskText}</p>
                 <p class="time"></p>
                 <span class="line"></span>
             </section>
@@ -67,38 +69,54 @@ function agregarTask() {
     `;
 
     // Eliminando tareas
-
-    const btnEliminar = taskItem.querySelector('.btn-eliminar');
-    btnEliminar.addEventListener('click', () => {
-        taskItem.remove();
-        updateTasksCount(taskList, 1);
-    });
-
+    deleteTask(taskItem);
 
     taskList.appendChild(taskItem);
 
-    // Marcando tareas
+    updateTasksCount(taskList);
 
-    const check = taskItem.querySelectorAll('.task-info');
-        check.forEach((e) => {
-            e.addEventListener('click', () => {
-                e.classList.toggle('active');
-                e.classList.contains('active') ? updateTasksCount(taskList, 1) : updateTasksCount(taskList);
-            });
-    });
+    // Marcando tareas
+    markTask(taskItem);
+
+    // Guardando tareas
+
+    let tasks = (JSON.parse(localStorage.getItem('tasks')) || []);
+    tasks.push(task);
+    localStorage.setItem('tasks', JSON.stringify(tasks));
 
     showTime(taskItem);
 
-    updateTasksCount(taskList)
 }
 
 // Contador de tareas
 const tasksCount = document.querySelector('.tasks-count');
 
+function deleteTask(e) {
+    const btnEliminar = e.querySelector('.btn-eliminar');
+    btnEliminar.addEventListener('click', () => {
+        e.remove();
+        let tasks = (JSON.parse(localStorage.getItem('tasks')) || []);
+        tasks = tasks.filter(task => task.taskText !== e.querySelector('.task-title').textContent);
+        localStorage.setItem('tasks', JSON.stringify(tasks));
+        updateTasksCount(taskList, 1);
+    });
+}
+
+// Marcando tareas
+
+function markTask(e) {
+    const taskInfo = e.querySelector('.task-info');
+    taskInfo.addEventListener('click', () => {
+        taskInfo.classList.toggle('active');
+        updateTasksCount(taskList);
+    });
+}
+
+
 
 function updateTasksCount(task, pending = 0) {
     let countTask = task.children.length;
-    tasksCount.textContent = `${countTask - pending} tasks`;
+    tasksCount.textContent = `${countTask - pending} task(s) pending(s)`;
 }
 
 
@@ -153,6 +171,41 @@ function showTime(e) {
         time.textContent = timeCurrent;
 } 
 
+// Mostrando tareas guardadas
+
+function showTasks() {
+    const taskList = document.querySelector('.tasks-list');
+    const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+    tasks.forEach(task => {
+        const taskItem = document.createElement('article');
+        taskItem.classList.add('task');
+        taskItem.innerHTML = `
+            <section class="task-info">
+                <span class="check">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check"><polyline points="20 6 9 17 4 12"/></svg>
+                </span>
+                <span class="circle">
+                    <svg width="24" height="24"><use href="assets/sprite.svg#icon-circle"/></svg>
+                </span>
+                <section class="task-text">
+                    <p class="task-title">${task.taskText}</p>
+                    <p class="time"></p>
+                    <span class="line"></span>
+                </section>
+            </section>  
+            <span class="btn-eliminar">
+                <svg width="24" height="24"><use href="assets/sprite.svg#icon-trash-2"/></svg>
+            </span>
+        `;
+
+        deleteTask(taskItem);
+        markTask(taskItem);
+        taskList.appendChild(taskItem);
+        updateTasksCount(taskList);
+        showTime(taskItem);
+    });
+}
+
 
 
 // Agregando fecha
@@ -165,3 +218,6 @@ const diaSemanaActual = dia.getDate();
 const mesActual = dia.getMonth();
 
 fechaActual.textContent = `${diaSemana[diaActual]}, ${diaSemanaActual} ${mes[mesActual]}`;
+
+
+showTasks();
