@@ -91,6 +91,12 @@ function agregarTask() {
 // Contador de tareas
 const tasksCount = document.querySelector('.tasks-count');
 
+function updateTasksCount(taskList, pending = 0) {
+    let countTask = taskList.children.length;
+    tasksCount.textContent = `${countTask - pending} task(s) pending(s)`;
+}
+
+
 function deleteTask(e) {
     const btnEliminar = e.querySelector('.btn-eliminar');
     btnEliminar.addEventListener('click', () => {
@@ -114,10 +120,7 @@ function markTask(e) {
 
 
 
-function updateTasksCount(task, pending = 0) {
-    let countTask = task.children.length;
-    tasksCount.textContent = `${countTask - pending} task(s) pending(s)`;
-}
+
 
 
 function showWarning() {
@@ -205,6 +208,7 @@ function showTasks() {
         showTime(taskItem);
     });
 }
+
 
 
 

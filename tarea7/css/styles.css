@@ -28,6 +28,21 @@ main {
 
 header {
     display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+header h1 {
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: #2A87F2;
+}
+
+header .header-info{
+    display: flex;
     justify-content: space-between;
     align-items: center;
     width: 100%;
