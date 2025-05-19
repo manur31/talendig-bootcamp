@@ -5,6 +5,7 @@ const checkAgregar = document.querySelector('.check-agregar');
 const fechaActual = document.querySelector('.fecha');
 const warning = document.querySelector('.warning');
 const cancelar = document.querySelector('.cancelar');
+const taskList = document.querySelector('.tasks-list');
 
 // Mostrando el input
 
@@ -42,61 +43,32 @@ checkAgregar.addEventListener('click', () => {
 function agregarTask() {
     const task = {
         taskText: inputText.value,
+        time: showTime(),
+        mark: false
     };
 
-    const taskList = document.querySelector('.tasks-list');
-    const taskItem = document.createElement('article');
+    createTask(task);
 
-    taskItem.classList.add('task');
-
-    taskItem.innerHTML = `
-        <section class="task-info">
-            <span class="check">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check"><polyline points="20 6 9 17 4 12"/></svg>
-            </span>
-            <span class="circle">
-                <svg width="24" height="24"><use href="assets/sprite.svg#icon-circle"/></svg>
-            </span>
-            <section class="task-text">
-                <p class="task-title">${task.taskText}</p>
-                <p class="time"></p>
-                <span class="line"></span>
-            </section>
-        </section>  
-        <span class="btn-eliminar">
-            <svg width="24" height="24"><use href="assets/sprite.svg#icon-trash-2"/></svg>
-        </span>
-    `;
-
-    // Eliminando tareas
-    deleteTask(taskItem);
-
-    taskList.appendChild(taskItem);
-
+    // Contador de tareas
     updateTasksCount(taskList);
 
-    // Marcando tareas
-    markTask(taskItem);
-
     // Guardando tareas
-
     let tasks = (JSON.parse(localStorage.getItem('tasks')) || []);
     tasks.push(task);
     localStorage.setItem('tasks', JSON.stringify(tasks));
-
-    showTime(taskItem);
 
 }
 
 // Contador de tareas
 const tasksCount = document.querySelector('.tasks-count');
 
-function updateTasksCount(taskList, pending = 0) {
-    let countTask = taskList.children.length;
-    tasksCount.textContent = `${countTask - pending} task(s) pending(s)`;
+function updateTasksCount(taskList) {
+    const countTask = taskList.children.length;
+    const countPending = taskList.querySelectorAll('.task-info.active').length;
+    tasksCount.textContent = `${countTask - countPending} task(s) pending(s)`;
 }
 
-
+// Eliminando tareas
 function deleteTask(e) {
     const btnEliminar = e.querySelector('.btn-eliminar');
     btnEliminar.addEventListener('click', () => {
@@ -115,10 +87,44 @@ function markTask(e) {
     taskInfo.addEventListener('click', () => {
         taskInfo.classList.toggle('active');
         updateTasksCount(taskList);
+        const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+        const index = Array.from(taskList.children).indexOf(e);
+        tasks[index].mark = !tasks[index].mark;
+        localStorage.setItem('tasks', JSON.stringify(tasks));
     });
 }
 
+// Creando tarea
 
+function createTask(task) {
+    const taskItem = document.createElement('article');
+
+    taskItem.classList.add('task');
+
+    taskItem.innerHTML = `
+        <section class="task-info ${task.mark ? 'active' : ''}">
+            <span class="check">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check"><polyline points="20 6 9 17 4 12"/></svg>
+            </span>
+            <span class="circle">
+                <svg width="24" height="24"><use href="assets/sprite.svg#icon-circle"/></svg>
+            </span>
+            <section class="task-text">
+                <p class="task-title">${task.taskText}</p>
+                <p class="time">${task.time}</p>
+                <span class="line"></span>
+            </section>
+        </section>  
+        <span class="btn-eliminar">
+            <svg width="24" height="24"><use href="assets/sprite.svg#icon-trash-2"/></svg>
+        </span>
+    `;
+
+    deleteTask(taskItem);
+    markTask(taskItem);
+
+    taskList.appendChild(taskItem);
+}
 
 
 
@@ -157,7 +163,7 @@ function canUseEnter() {
 
 
 // Agregando hora
-function showTime(e) {
+function showTime() {
     const fecha = new Date();
         let horas = fecha.getHours();
         let minutos = fecha.getMinutes();
@@ -170,47 +176,18 @@ function showTime(e) {
 
         const timeCurrent = `${horas}:${minutos} ${ampm}`;
 
-        const time = e.querySelector('.time');
-        time.textContent = timeCurrent;
+    return timeCurrent;
 } 
 
 // Mostrando tareas guardadas
 
 function showTasks() {
-    const taskList = document.querySelector('.tasks-list');
     const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
     tasks.forEach(task => {
-        const taskItem = document.createElement('article');
-        taskItem.classList.add('task');
-        taskItem.innerHTML = `
-            <section class="task-info">
-                <span class="check">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check"><polyline points="20 6 9 17 4 12"/></svg>
-                </span>
-                <span class="circle">
-                    <svg width="24" height="24"><use href="assets/sprite.svg#icon-circle"/></svg>
-                </span>
-                <section class="task-text">
-                    <p class="task-title">${task.taskText}</p>
-                    <p class="time"></p>
-                    <span class="line"></span>
-                </section>
-            </section>  
-            <span class="btn-eliminar">
-                <svg width="24" height="24"><use href="assets/sprite.svg#icon-trash-2"/></svg>
-            </span>
-        `;
-
-        deleteTask(taskItem);
-        markTask(taskItem);
-        taskList.appendChild(taskItem);
+        createTask(task);
         updateTasksCount(taskList);
-        showTime(taskItem);
     });
 }
-
-
-
 
 // Agregando fecha
 const dia = new Date();
