@@ -1,0 +1,166 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box; 
+}
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    background-color: #ECEAED;
+}
+
+main {
+    margin-top: 50px;
+    background-color: #FCFCFC;
+    color: #3a293f;
+    padding: 2rem;
+    max-width: 800px;
+    width: 100%;
+    min-width: 350px;
+    border-radius: 12px;
+}
+
+    main header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+        .search {
+            display: flex;
+            align-items: center;
+            position: relative;
+            width: 100%;
+        }
+
+            .search h1 {
+                display: block;
+                z-index: 1;
+                font-size: 1.25rem;
+                position: absolute;
+                top: 0;
+                left: 2.25rem;
+            }   
+
+                #country {
+                    color: #b0b0b0;
+                }
+
+            .search input {
+                width: 80%;
+                border: none;
+                outline: none;
+                padding: 0 .75rem;
+                font-size: 1.25rem;
+                z-index: 2;
+                background-color: #FCFCFC;
+                color: #3a293f;
+            }
+
+                .search input::placeholder {
+                    color: #3a293f;
+                }
+
+        .mode {
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+
+            .mode svg {
+                position: absolute;
+                top: 50%;
+                right: 0;
+                transform: translateY(-50%);
+                cursor: pointer;
+            }
+
+            .mode .feather-moon {
+                display: none;
+            }                   
+
+            .mode .feather-sun {
+                display: block;
+            }
+
+
+    .results {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        padding: 3rem 0;
+        position: relative;
+    }
+
+    .temperatures-container {
+        position: absolute;
+        right: 2%;
+        top: 20%;
+    }
+
+        .temperatures {
+            position: relative;
+        }
+
+            .celcius, .fahrenheit{
+                position: absolute;
+                right: 0;
+                font-size: 1rem;
+                color: #b0b0b0;
+                transition: .5s ease;
+            }
+
+            .active{
+                position: absolute;
+                right: 20px;
+                font-size: 1.5rem;
+                cursor: pointer;
+                transition: .5s ease;
+                color: #3a293f;
+            }
+
+            
+
+    .results article {
+        display: flex;
+        align-items: center;
+    }             
+
+    .results article svg {
+        width: 15rem;
+        height: 15rem;
+        stroke-width: .5;
+    }
+
+    .results article .temperature {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .results article .temperature .low-high {
+        display: flex;
+        align-items: center;
+        gap: .75rem;
+        font-size: 1.5rem;
+        color: #b0b0b0;
+    }
+
+    .results article .temperature h2 {
+        font-size: 10rem;
+        font-weight: 150;
+        margin-top: -1.5rem;
+    }
+
+    .results article .temperature p {
+        font-size: 1.5rem;
+        color: #b0b0b0;
+        margin-top: -1.5rem;
+    }   
+
+    
+    

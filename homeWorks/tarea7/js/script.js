@@ -69,12 +69,12 @@ function updateTasksCount(taskList) {
 }
 
 // Eliminando tareas
-function deleteTask(e) {
-    const btnEliminar = e.querySelector('.btn-eliminar');
+function deleteTask(item) {
+    const btnEliminar = item.querySelector('.btn-eliminar');
     btnEliminar.addEventListener('click', () => {
-        e.remove();
+        item.remove();
         let tasks = (JSON.parse(localStorage.getItem('tasks')) || []);
-        tasks = tasks.filter(task => task.taskText !== e.querySelector('.task-title').textContent);
+        tasks = tasks.filter(task => task.taskText !== item.querySelector('.task-title').textContent);
         localStorage.setItem('tasks', JSON.stringify(tasks));
         updateTasksCount(taskList, 1);
     });
@@ -82,13 +82,13 @@ function deleteTask(e) {
 
 // Marcando tareas
 
-function markTask(e) {
-    const taskInfo = e.querySelector('.task-info');
+function markTask(item) {
+    const taskInfo = item.querySelector('.task-info');
     taskInfo.addEventListener('click', () => {
         taskInfo.classList.toggle('active');
         updateTasksCount(taskList);
         const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
-        const index = Array.from(taskList.children).indexOf(e);
+        const index = Array.from(taskList.children).indexOf(item);
         tasks[index].mark = !tasks[index].mark;
         localStorage.setItem('tasks', JSON.stringify(tasks));
     });
