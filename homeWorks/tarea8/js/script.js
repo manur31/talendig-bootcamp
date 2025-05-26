@@ -1,29 +1,77 @@
 const $input = document.querySelector(".search-box input");
 const btnSearch = document.querySelector('.feather-search')
 const apiKey = '4057478c097249cccb7fefc971c79fe6';
+// const apiKey = 'd9bc3312eca14bad8fc123925252505';
 const $city = document.querySelector('#city');
+const $country = document.querySelector('#country');
+const $cityContainer = document.querySelector('.city-container');
 const $temperature = document.querySelector('#temperature');
 const $low = document.querySelector('#low');
 const $high = document.querySelector('#high');
 const $description = document.querySelector('#description');
-
+const $humidity = document.querySelector('#humidity-text');
+const $wind = document.querySelector('#wind-text');
+const $feelsLike = document.querySelector('#feels-like-text');
+const btnChangeMode = document.querySelector('.mode')
 const chageTemperature = document.querySelector('.temperatures')
 const celcius = chageTemperature.querySelector('.celcius');
 const fahrenheit = chageTemperature.querySelector('.fahrenheit');
+const icon = document.querySelector('.icon');
+const wind = document.querySelector('.feather-wind');
+const feelsLike = document.querySelector('.feather-thermometer');
+const humidity = document.querySelector('.humidity-icon');
+const $lowHigh = document.querySelector('.low-high');
+const $pTemperature = document.querySelectorAll('.temperature p');
+const iconSearch = document.querySelector('.feather-search');
+const $main = document.querySelector('main');
+const pin = document.querySelector('.feather-map-pin');
+const $error = document.querySelector('#error')
 
+
+btnChangeMode.addEventListener('click', ()=> {
+
+    const darkMode = [
+        document.body, 
+        $main, 
+        $input,
+        celcius,
+        fahrenheit,
+        icon,
+        wind,
+        feelsLike,
+        humidity,
+        $humidity,
+        $wind,
+        $feelsLike,
+        $lowHigh,
+        $country,
+        iconSearch,
+        pin
+    ]
+
+    darkMode.forEach(element => element.classList.toggle('dark'));
+
+    btnChangeMode.querySelector('.feather-moon').classList.toggle('hidden');
+    btnChangeMode.querySelector('.feather-sun').classList.toggle('hidden');
+    $pTemperature.forEach(p => p.classList.toggle('dark'));
+})
 
 chageTemperature.addEventListener('click', ()=> {
     celcius.classList.toggle('active');
     fahrenheit.classList.toggle('active');
+    if ($city.textContent.includes(',')){
+        searchCity($city.textContent.split(',')[0])
+    }
+})
 
-    if (celcius.classList.contains('active')){
-        $temperature.innerHTML = `${((294.83) - 273.15).toFixed(0)}°`;
-        $low.innerHTML = `${((293.74) - 273.15).toFixed(0)}°`;
-        $high.innerHTML = `${((296.28) - 273.15).toFixed(0)}°`;
-    }else{
-        $temperature.innerHTML = `${(((294.83) - 273.15)* 9/5 + 32).toFixed(0)}°`;
-        $low.innerHTML = `${(((293.74) - 273.15)* 9/5 + 32).toFixed(0)}°`;
-        $high.innerHTML = `${(((296.28) - 273.15)* 9/5 + 32).toFixed(0)}°`;
+pin.addEventListener('click', ()=> {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(position => {
+            const { latitude, longitude } = position.coords;
+            searchCity(`${latitude},${longitude}`);
+        });
+    } else {
+        alert('Tu navegador no soporta geolocalización');
     }
 })
 
@@ -37,38 +85,113 @@ $input.addEventListener('keydown', (e) => {
         searchCity($input.value)
         $input.value = '';
         $input.style.display = 'none';
-        $city.style.display = 'block';
+        $cityContainer.style.display = 'flex';
     }
 })
 
+// const searchCity =  async (city) => {
 
-const searchCity =  async (city = 'santo domingo') => {
+//     try {
+//         const response = await fetch(` http://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${city}`)
+//         const data = await response.json();
+//         $city.innerHTML = `${data.location.name} <span id="country">${data.location.country}</span>`
+//         if (celcius.classList.contains('active')) {
+//             $temperature.innerHTML = `${(data.current.temp_c).toFixed(0)}°`
+//             $low.innerHTML = `${(data.current.temp_c).toFixed(0)}°`
+//             $high.innerHTML = `${(data.current.temp_c).toFixed(0)}°`
+//             $feelsLike.innerHTML = `${(data.current.feelslike_c).toFixed(0)}°`
+//         } else {
+//             $temperature.innerHTML = `${(data.current.temp_f).toFixed(0)}°`
+//             $low.innerHTML = `${(data.current.temp_f).toFixed(0)}°`
+//             $high.innerHTML = `${(data.current.temp_f).toFixed(0)}°`
+//             $feelsLike.innerHTML = `${(data.current.feelslike_f).toFixed(0)}°`
+//         }
+
+//         $humidity.innerHTML = `${data.current.humidity}%`;
+//         $wind.innerHTML = `${data.current.wind_kph} kms/h`;
+//         $description.innerHTML = `${data.current.condition.text}`
+
+//         icon.src = data.current.condition.icon;
+
+//         localStorage.setItem('city', city);
+//         console.log(data)
+//     } catch (error) {
+//         console.log(error);
+//     }
+// }
+
+
+const searchCity =  async (city) => {
     try {
-        // const $results = document.querySelector(".results");
-        const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}`);
-        const data = await response.json();
-        $city.innerHTML = `${data.name}, <span id="country">${data.sys.country}</span>`;
-        if (celcius.classList.contains('active')){
-            $temperature.innerHTML = `${((data.main.temp) - 273.15).toFixed(0)}°`;
-            $low.innerHTML = `${((data.main.temp_min) - 273.15).toFixed(0)}°`;
-            $high.innerHTML = `${((data.main.temp_max) - 273.15).toFixed(0)}°`;
-        }else{
-            $temperature.innerHTML = `${(((data.main.temp) - 273.15)* 9/5 + 32).toFixed(0)}°`;
-            $low.innerHTML = `${(((data.main.temp_min) - 273.15)* 9/5 + 32).toFixed(0)}°`;
-            $high.innerHTML = `${(((data.main.temp_max) - 273.15)* 9/5 + 32).toFixed(0)}°`;
+        let url;
+        if (city.includes(',')) {
+            const [lat, lon] = city.split(',');
+            url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}`;
+        } else {
+            url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}`;
         }
-        
+
+        const response = await fetch(url);
+        const data = await response.json();
+        $city.innerHTML = `${data.name},`;
+        $country.innerHTML = `${data.sys.country}`;
+
+        if (celcius.classList.contains('active')){
+            $temperature.innerHTML = `${kelvinToCelcius(data.main.temp)}°`;
+            $low.innerHTML = `${kelvinToCelcius(data.main.temp_min)}°`;
+            $high.innerHTML = `${kelvinToCelcius(data.main.temp_max)}°`;
+            $feelsLike.innerHTML = `${kelvinToCelcius(data.main.feels_like)}°`;
+        } else {
+            $temperature.innerHTML = `${kelvinToFahrenheit(data.main.temp)}°`;
+            $low.innerHTML = `${kelvinToFahrenheit(data.main.temp_min)}°`;
+            $high.innerHTML = `${kelvinToFahrenheit(data.main.temp_max)}°`;
+            $feelsLike.innerHTML = `${kelvinToFahrenheit(data.main.feels_like)}°`;
+        }
+
+        $humidity.innerHTML = `${data.main.humidity}%`;
+        $wind.innerHTML = `${data.wind.speed} m/s`;
         $description.innerHTML = data.weather[0].description;
-        console.log(data)
+        
+        icon.innerHTML = `<use xlink:href="./assets/sprite.svg#${data.weather[0].icon}"></use>`;
+
+        const cities = (JSON.parse(localStorage.getItem('city')) || []);
+        cities.push(city);
+        localStorage.setItem('city', JSON.stringify(cities));
+
     } catch (error) {
-        console.log(error);
+        if(error){
+            $error.textContent = 'City not found';
+            $error.style.opacity = '1';
+            setInterval(() => {
+                $error.style.opacity = '0';
+            }, 2500);
+            inputFocus()
+        }
     }
 }
-// searchCity("madrid")
-    
+
 
 function inputFocus() {
     $input.style.display = 'block';
-    $city.style.display = 'none';
+    $cityContainer.style.display = 'none';
+    $city.textContent = '';
+    $country.textContent = '';
     $input.focus();
 }
+
+function kelvinToCelcius(kelvin){
+    return (kelvin - 273.15).toFixed(0);
+}
+
+function kelvinToFahrenheit(kelvin){
+    return (((kelvin - 273.15)) * 9/5 + 32).toFixed(0);
+}
+
+const loadCity = () => {
+    const city = JSON.parse(localStorage.getItem('city'));
+    if (city) {
+        searchCity(city[city.length - 1]);
+    }
+}
+
+loadCity();

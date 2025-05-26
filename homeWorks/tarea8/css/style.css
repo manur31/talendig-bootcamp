@@ -11,24 +11,37 @@ body {
     display: flex;
     align-items: center;
     flex-direction: column;
-    background-color: #ECEAED;
-}
+    background-color: #FCFCFC;
+    transition: .5s ease;
+}   
+
+    body.dark {
+        background-color: #6f6c70;
+        color: #fff;
+    }
 
 main {
     margin-top: 50px;
-    background-color: #FCFCFC;
-    color: #3a293f;
+    background: #6b9ac4;
+    color: #fff;
     padding: 2rem;
     max-width: 800px;
     width: 100%;
     min-width: 350px;
     border-radius: 12px;
+    transition: .5s ease;
 }
+
+    main.dark {
+        background:#3a293f;
+        color: #fff;
+    }
 
     main header {
         display: flex;
         justify-content: space-between;
         align-items: center;
+        position: relative;
     }
 
         .search {
@@ -38,41 +51,79 @@ main {
             width: 100%;
         }
 
-            .search h1 {
-                display: block;
+            .search .city-container {
+                display: flex;
+                align-items: end;
+                gap: .5rem;
                 z-index: 1;
                 font-size: 1.25rem;
                 position: absolute;
                 top: 0;
                 left: 2.25rem;
             }   
-
+            
                 #country {
-                    color: #b0b0b0;
-                }
+                    color: #0E1116;
+                    font-weight: 800;
+                    font-size: 1.5rem;
+                }   
+                    #country.dark {
+                        color: #F18F01;
+                    }
 
             .search input {
+                display: none;
                 width: 80%;
                 border: none;
                 outline: none;
                 padding: 0 .75rem;
                 font-size: 1.25rem;
                 z-index: 2;
-                background-color: #FCFCFC;
-                color: #3a293f;
+                background-color: transparent;
+                color: #ffffff;
+                transition: .5s ease;
+
+                &::placeholder {
+                    color: #ffffff;
+                }
+            }
+            .search input.dark {
+                color: #fff;
+
+                &::placeholder {
+                    color: #F18F01;
+                }
             }
 
-                .search input::placeholder {
-                    color: #3a293f;
-                }
+        .feather-search {
+            color: #fff;
+        }
+
+            .feather-search.dark {
+                color: #F18F01;
+            }
 
         .mode {
-            display: flex;
-            align-items: center;
             position: relative;
         }
 
-            .mode svg {
+        .location {
+            position: absolute;
+            top: 65%;
+            right: 35px;
+            transform: translateY(-55%);
+            cursor: pointer;
+        }
+
+            .location .feather-map-pin {
+                color: #0E1116;
+            }       
+
+            .location .feather-map-pin.dark {
+                color: #F18F01;
+            }   
+
+            .mode .feather-moon, .mode .feather-sun {
                 position: absolute;
                 top: 50%;
                 right: 0;
@@ -80,27 +131,43 @@ main {
                 cursor: pointer;
             }
 
-            .mode .feather-moon {
+            .hidden {
                 display: none;
-            }                   
-
-            .mode .feather-sun {
-                display: block;
             }
 
+    #error {
+        position: absolute;
+        opacity: 0;
+        color: red;
+        margin-top: 1.25rem;
+        margin-left: 2.25rem;
+        padding: .5rem;
+        font-weight: 600;
+        background-color: #fff;
+        width: 135px;
+        border-radius: 5px;
+        transition: .5s ease;
+    }
 
     .results {
         display: flex;
+        flex-direction: column;
+        align-items: center;
+        /* padding: 3rem 0; */
+        position: relative;
+    }
+
+    .results-container {
+        display: flex;
         justify-content: space-around;
         align-items: center;
-        padding: 3rem 0;
-        position: relative;
+        width: 100%;
     }
 
     .temperatures-container {
         position: absolute;
-        right: 2%;
-        top: 20%;
+        right: 0;
+        top: 10%;
     }
 
         .temperatures {
@@ -111,18 +178,22 @@ main {
                 position: absolute;
                 right: 0;
                 font-size: 1rem;
-                color: #b0b0b0;
+                color: #a2a2a2;  
                 transition: .5s ease;
             }
 
             .active{
                 position: absolute;
                 right: 20px;
-                font-size: 1.5rem;
+                font-size: 1.75rem;
                 cursor: pointer;
                 transition: .5s ease;
-                color: #3a293f;
+                color: #fff;
             }
+
+                .active.dark {
+                    color: #fff;
+                }
 
             
 
@@ -131,11 +202,6 @@ main {
         align-items: center;
     }             
 
-    .results article svg {
-        width: 15rem;
-        height: 15rem;
-        stroke-width: .5;
-    }
 
     .results article .temperature {
         display: flex;
@@ -147,7 +213,6 @@ main {
         align-items: center;
         gap: .75rem;
         font-size: 1.5rem;
-        color: #b0b0b0;
     }
 
     .results article .temperature h2 {
@@ -158,9 +223,78 @@ main {
 
     .results article .temperature p {
         font-size: 1.5rem;
-        color: #b0b0b0;
+        color: #0E1116;
         margin-top: -1.5rem;
     }   
 
+    .results article .temperature p.dark {
+        color: #F18F01;
+    }   
+
+    .weather-conditions {
+        width: 100%;   
+        margin-top: 1rem; 
+        margin-bottom: 1rem;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+    }
+
+    .weather-conditions article {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+        align-items: center;
+    }
+
+    .weather-conditions article p {
+        color: #301A4B;         
+        font-size: 1.8rem;
+        font-weight: 500;
+    }
+
+        .weather-conditions article p.dark {
+            color: #F18F01;
+        }
+
+    .icon-container {
+        width: 50%;
+    }
+
+        .icon-container svg{
+            width: 20rem;
+            height: 20rem;
+            stroke-width: none;
+            fill: #fff;
+        }
+
+
+    .weather-conditions .humidity .humidity-icon {
+        width: 4rem;
+        height: 4rem;
+        /* stroke-width: 1; */
+
+        & path {
+            fill: #fff;
+            stroke-width: .5;
+        }
+    }
+
+    .weather-conditions .humidity .humidity-icon.dark {
+        & path {
+            fill: #fff;
+        }
+    }
+
+    .weather-conditions .feather-wind, .weather-conditions .feather-thermometer {
+        stroke-width: 1.8;
+        stroke: #fff;
+        width: 4rem;    
+        height: 4rem;
+    }   
     
+    .weather-conditions .feather-wind.dark, .weather-conditions .feather-thermometer.dark {
+        stroke: #fff;
+    }
+
     

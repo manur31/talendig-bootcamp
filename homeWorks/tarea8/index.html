@@ -12,35 +12,62 @@
             <section class="search">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
                 <input type="text" placeholder="Search a city...">
-                <h1 id="city">Santo Domingo, <span id="country">DO</span></h1>
+                <article class="city-container">
+                    <h1 id="city"></h1>
+                    <span id="country">es</span>
+                </article>
+            </section>
+            <section class="location">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-map-pin"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
             </section>
             <section class="mode">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-moon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-sun"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0E1116" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-moon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#F18F01" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-sun hidden"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
             </section>
         </header>
+        <p id="error"></p>
         <section class="results">
-            <article class="temperatures-container">
-                <section class="temperatures">
-                    <p class="celcius active">C</p>
-                    <p class="fahrenheit">F</p>
-                </section>
-            </article>
-            <article>
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-cloud"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg>
-            </article>
-            <article>
-                <aside class="temperature">
-                    <section class="low-high">
-                        <p id="low">L: <span>00</span>°</p>
-                        <p id="high">H: <span>00</span>°</p>
+            <section class="results-container">
+                <article class="temperatures-container">
+                    <section class="temperatures">
+                        <p class="celcius active">C</p>
+                        <p class="fahrenheit">F</p>
                     </section>
-                    <h2 id="temperature"><span>00</span>°</h2>
-                    <p id="description">Sunny</p>
-                </aside>
-                
-            </article>
-            
+                </article>
+                <article class="icon-container">
+                    <svg class="icon">
+                    </svg>
+                </article>
+                <article>
+                    <aside class="temperature">
+                        <section class="low-high">
+                            <p id="low">L: <span>00</span>°</p>
+                            <p id="high">H: <span>00</span>°</p>
+                        </section>
+                        <h2 id="temperature"><span>00</span>°</h2>
+                        <p id="description">Sunny</p>
+                    </aside>
+                </article>
+            </section>
+            <section class="weather-conditions">
+                <article class="humidity">
+                    <svg class="humidity-icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Layer_1" x="0px" y="0px" width="100%" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve">
+                        <path fill="#000000" opacity="1.000000" stroke="none" d=" M263.535339,1.000000   C273.732483,7.453494 277.735352,18.226900 283.755066,27.437576   C296.200012,46.479404 309.575073,64.846718 323.384186,82.901054   C344.619446,110.664520 366.487946,137.958817 387.170166,166.125916   C409.519501,196.563461 429.500214,228.507187 440.904510,264.965118   C446.117279,281.629517 449.148010,298.627289 449.495178,316.228882   C449.948761,339.226257 446.767639,361.495087 439.507050,383.280121   C431.902893,406.095886 420.421112,426.887756 404.956116,445.096649   C375.988312,479.204193 339.234924,500.824951 295.382751,510.153015   C291.401672,510.999847 287.229034,510.889160 283.192932,512.739502   C265.979095,513.000000 248.958206,513.000000 231.468658,513.000000   C228.753387,509.889221 225.088028,511.107422 222.238831,510.617859   C195.091629,505.953430 170.403564,495.364319 147.772461,479.985657   C124.242584,463.996185 105.405838,443.572632 90.918320,418.966888   C80.009308,400.438873 72.100731,380.754456 68.066879,359.811951   C61.653870,326.517609 63.138859,293.487885 74.271111,261.117737   C84.641129,230.964020 100.512306,203.847717 118.657097,177.829010   C130.909637,160.259491 143.766418,143.154388 156.880539,126.248741   C172.940536,105.545570 189.300644,85.076927 204.844406,63.975258   C217.256912,47.124454 229.072800,29.871010 239.880020,11.947369   C242.417847,7.738419 245.528015,4.240972 249.772369,1.244524   C254.356903,1.000000 258.713806,1.000000 263.535339,1.000000  M312.371643,469.748047   C335.830688,460.712158 356.122803,447.197540 373.280823,428.618378   C384.361694,416.619720 393.466461,403.469086 400.403351,388.849457   C417.876373,352.024719 420.785828,314.013062 408.451996,275.059265   C400.664124,250.462891 387.734863,228.414902 373.728943,206.974167   C357.019653,181.394958 338.002869,157.506805 319.307617,133.388550   C300.717194,109.405563 281.673676,85.763412 264.789429,60.502190   C262.364563,56.874283 259.667358,53.428425 256.852020,49.563046   C252.391022,56.023212 248.371643,61.912769 244.282822,67.753723   C220.129288,102.257576 193.099655,134.575562 167.872406,168.262299   C144.663345,199.254074 122.238159,230.718063 108.324562,267.335144   C98.045868,294.386047 95.552452,322.051941 100.839188,350.456177   C104.657249,370.969666 112.712318,389.765503 123.770195,407.384308   C129.892197,417.138702 137.264648,425.965240 145.400299,433.914673   C154.502289,442.808350 164.658569,450.559906 175.675156,457.243378   C196.659409,469.973969 219.348434,477.507538 243.602997,479.443115   C266.814301,481.295410 289.721893,478.636200 312.371643,469.748047  z"/>
+                        <path fill="#000000" opacity="1.000000" stroke="none" d=" M173.395279,417.328064   C159.814789,413.748077 155.627243,398.140259 165.282166,388.481445   C218.172668,335.569916 271.078369,282.673523 324.003204,229.796341   C333.216034,220.591797 348.732330,222.910538 352.428558,234.368057   C354.614349,241.143417 354.304352,247.922775 348.495239,253.710495   C306.005127,296.044098 263.651184,338.514374 221.254089,380.941315   C211.599533,390.602661 201.701660,400.036682 192.384140,410.012756   C187.159500,415.606659 181.410645,418.403137 173.395279,417.328064  z"/>
+                        <path fill="#000000" opacity="1.000000" stroke="none" d=" M263.591736,427.230103   C252.940567,407.331818 253.525940,388.163483 266.852142,370.328186   C275.303223,359.017548 287.356903,353.401031 301.635742,352.623352   C319.826660,351.632538 334.708557,358.041199 345.076233,372.971313   C359.424866,393.634308 355.685577,423.289978 335.480957,439.330078   C313.783020,456.555603 279.057037,451.809753 263.591736,427.230103  M307.807281,415.550293   C309.479431,414.831512 311.278503,414.315063 312.802002,413.359314   C319.825287,408.953461 321.808502,399.656219 317.293488,392.824432   C312.912659,386.195679 303.817841,384.327332 297.058380,388.667419   C291.538849,392.211426 288.860474,399.214417 290.798035,405.169281   C292.968506,411.840149 299.450409,416.758118 307.807281,415.550293  z"/>
+                        <path fill="#000000" opacity="1.000000" stroke="none" d=" M162.211258,254.398438   C155.364334,225.176147 170.211380,198.146469 200.233276,193.122131   C227.551712,188.550232 251.062042,202.746536 256.804382,231.663467   C261.475677,255.186722 249.774139,277.898438 226.009827,286.587769   C201.101639,295.695312 174.236252,283.417023 164.875092,261.791656   C163.891251,259.518860 163.214676,257.113098 162.211258,254.398438  M195.474655,246.809158   C200.012848,255.369080 208.608566,258.214264 216.259796,253.689011   C223.669907,249.306351 225.971130,240.124588 221.436783,233.032944   C217.651627,227.112976 209.656982,224.545639 203.557022,227.291214   C195.682312,230.835648 192.792236,237.330399 195.474655,246.809158  z"/>
+                    </svg>
+                    <p id="humidity-text"></p>
+                </article>
+                <article class="feels-like">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-thermometer"><path d="M14 14.76V3.5a2.5 2.5 0 0 0-5 0v11.26a4.5 4.5 0 1 0 5 0z"/></svg>
+                    <p id="feels-like-text"></p>
+                </article>
+                <article class="wind">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="feather feather-wind"><path d="M9.59 4.59A2 2 0 1 1 11 8H2m10.59 11.41A2 2 0 1 0 14 16H2m15.73-8.27A2.5 2.5 0 1 1 19.5 12H2"/></svg>
+                    <p id="wind-text"></p>
+                </article>
+            </section>
         </section>
     </main>
     <script src="js/script.js"></script>
