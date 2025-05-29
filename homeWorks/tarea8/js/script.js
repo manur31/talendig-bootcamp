@@ -25,8 +25,14 @@ const $pTemperature = document.querySelectorAll('.temperature p');
 const iconSearch = document.querySelector('.feather-search');
 const $main = document.querySelector('main');
 const pin = document.querySelector('.feather-map-pin');
-const $error = document.querySelector('#error')
+const $error = document.querySelector('#error');
+const forecastMode = document.querySelector('.forecast')
+// const $favorite = document.querySelector('.favorite');
 
+// $favorite.addEventListener('click', () => {
+//     $favorite.classList.toggle('active');
+//     $main.classList.toggle('active');
+// })
 
 btnChangeMode.addEventListener('click', ()=> {
 
@@ -46,7 +52,8 @@ btnChangeMode.addEventListener('click', ()=> {
         $lowHigh,
         $country,
         iconSearch,
-        pin
+        pin,
+        forecastMode
     ]
 
     darkMode.forEach(element => element.classList.toggle('dark'));
@@ -126,37 +133,40 @@ const searchCity =  async (city) => {
         let url;
         if (city.includes(',')) {
             const [lat, lon] = city.split(',');
-            url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}`;
+            url = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}`;
         } else {
-            url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}`;
+            url = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiKey}`;
         }
 
         const response = await fetch(url);
         const data = await response.json();
-        $city.innerHTML = `${data.name},`;
-        $country.innerHTML = `${data.sys.country}`;
+        $city.innerHTML = `${data.city.name},`;
+        $country.innerHTML = `${data.city.country}`;
 
         if (celcius.classList.contains('active')){
-            $temperature.innerHTML = `${kelvinToCelcius(data.main.temp)}°`;
-            $low.innerHTML = `${kelvinToCelcius(data.main.temp_min)}°`;
-            $high.innerHTML = `${kelvinToCelcius(data.main.temp_max)}°`;
-            $feelsLike.innerHTML = `${kelvinToCelcius(data.main.feels_like)}°`;
+            $temperature.innerHTML = `${kelvinToCelcius(data.list[0].main.temp)}°`;
+            $low.innerHTML = `${kelvinToCelcius(data.list[0].main.temp_min)}°`;
+            $high.innerHTML = `${kelvinToCelcius(data.list[0].main.temp_max)}°`;
+            $feelsLike.innerHTML = `${kelvinToCelcius(data.list[0].main.feels_like)}°`;
         } else {
-            $temperature.innerHTML = `${kelvinToFahrenheit(data.main.temp)}°`;
-            $low.innerHTML = `${kelvinToFahrenheit(data.main.temp_min)}°`;
-            $high.innerHTML = `${kelvinToFahrenheit(data.main.temp_max)}°`;
-            $feelsLike.innerHTML = `${kelvinToFahrenheit(data.main.feels_like)}°`;
+            $temperature.innerHTML = `${kelvinToFahrenheit(data.list[0].main.temp)}°`;
+            $low.innerHTML = `${kelvinToFahrenheit(data.list[0].main.temp_min)}°`;
+            $high.innerHTML = `${kelvinToFahrenheit(data.list[0].main.temp_max)}°`;
+            $feelsLike.innerHTML = `${kelvinToFahrenheit(data.list[0].main.feels_like)}°`;
         }
 
-        $humidity.innerHTML = `${data.main.humidity}%`;
-        $wind.innerHTML = `${data.wind.speed} m/s`;
-        $description.innerHTML = data.weather[0].description;
+        $humidity.innerHTML = `${data.list[0].main.humidity}%`;
+        $wind.innerHTML = `${data.list[0].wind.speed} m/s`;
+        $description.innerHTML = data.list[0].weather[0].description;
         
-        icon.innerHTML = `<use xlink:href="./assets/sprite.svg#${data.weather[0].icon}"></use>`;
+        icon.innerHTML = `<use xlink:href="./assets/sprite.svg#${data.list[0].weather[0].icon}"></use>`;
+
+        showForecast(data)
 
         const cities = (JSON.parse(localStorage.getItem('city')) || []);
         cities.push(city);
         localStorage.setItem('city', JSON.stringify(cities));
+
 
     } catch (error) {
         if(error){
@@ -166,6 +176,8 @@ const searchCity =  async (city) => {
                 $error.style.opacity = '0';
             }, 2500);
             inputFocus()
+
+            console.log(error);
         }
     }
 }
@@ -187,11 +199,39 @@ function kelvinToFahrenheit(kelvin){
     return (((kelvin - 273.15)) * 9/5 + 32).toFixed(0);
 }
 
+const showForecast = async (data) => {
+    // Pronosticos
+    const containerForecast = document.querySelector('.forecast')
+    const forecast = await data.list.slice(1, 6);
+
+    forecast.forEach((data) => {
+        const date = data.dt_txt;
+        const temp = kelvinToCelcius(data.main.temp);
+        const desc = data.weather[0].description;
+        const icon = data.weather[0].icon;
+
+        const card = document.createElement('article')
+        card.classList.add('.forecast-day')
+        
+        // <aside id="forecastIcon"><use xlink:href="./assets/sprite.svg#${icon}"></use></aside>
+        
+        card.innerHTML = `
+            <p id="forecastDate">${date.split(' ')[1].slice(0, 5)}h</p>
+            <svg><use xlink:href="./assets/sprite.svg#${icon}"></use></svg>
+            <p id="forecastTemp">${temp} °C</p>
+            <p id="forecastDesc">${desc}</p>
+        `
+        containerForecast.appendChild(card);
+    });
+}
+
 const loadCity = () => {
     const city = JSON.parse(localStorage.getItem('city'));
     if (city) {
         searchCity(city[city.length - 1]);
     }
 }
+
+console.log(forecastMode)
 
 loadCity();

@@ -21,16 +21,22 @@ body {
     }
 
 main {
-    margin-top: 50px;
+    margin: 5rem 0 16rem 0;
     background: #6b9ac4;
     color: #fff;
     padding: 2rem;
     max-width: 800px;
     width: 100%;
     min-width: 350px;
-    border-radius: 12px;
+    border-radius: 12px 12px 0 0;
     transition: .5s ease;
+    position: relative;
 }
+
+    main.active {
+        left: 200px;
+
+    }
 
     main.dark {
         background:#3a293f;
@@ -42,6 +48,12 @@ main {
         justify-content: space-between;
         align-items: center;
         position: relative;
+    }
+
+    main h3 {
+        text-align: center;
+        padding-top: 2rem;
+        font-size: 1.6rem;
     }
 
         .search {
@@ -153,7 +165,7 @@ main {
         display: flex;
         flex-direction: column;
         align-items: center;
-        /* padding: 3rem 0; */
+        padding: 2rem 0 0 0;
         position: relative;
     }
 
@@ -296,5 +308,69 @@ main {
     .weather-conditions .feather-wind.dark, .weather-conditions .feather-thermometer.dark {
         stroke: #fff;
     }
+
+
+    .forecast {
+        position: absolute;
+        left: 0;
+        bottom: -175px;
+        width: 100%;
+        height: 175px;
+        display: flex;
+        justify-content: center;
+        transition: .5s ease;
+    }
+
+    .forecast article {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: .5rem;
+        width: 160px;
+        height: 175px;
+        padding: 1rem;
+        background-color: #6b9ac4;
+        color: white;
+        border-radius: 0 0 20px 20px;
+    }
+
+        .forecast article svg {
+            stroke: none;
+            fill: white;
+            width: 56px;
+            height: 56px;
+        }
+
+        .forecast article #forecastTemp {
+            background-color: transparent;
+        }
+
+        .forecast.dark article, #forecastTemp {
+            color: white;
+            background-color: #3a293f;
+        }
+
+
+
+        .forecast.dark article p {
+            color: #F18F01;
+        }
+
+
+    /* .favorite {
+        position: absolute;
+        top: 20px;
+        right: 0;
+        width: 160px;
+        height: 150%;
+        background-color: rgba(255, 0, 0, 0.362);
+        transition: .7s ease-in-out;
+        cursor: pointer;
+    }
+
+        .favorite.active{
+            right: -160px;
+        } */
 
     
