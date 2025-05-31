@@ -202,6 +202,7 @@ function kelvinToFahrenheit(kelvin){
 const showForecast = async (data) => {
     // Pronosticos
     const containerForecast = document.querySelector('.forecast')
+    containerForecast.innerHTML = ''
     const forecast = await data.list.slice(1, 6);
 
     forecast.forEach((data) => {
